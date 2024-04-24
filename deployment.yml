@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullstack-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fapp
+  template:
+    metadata:
+      labels:
+        app: fapp
+    spec:
+      containers:
+      - name: vite-container
+        image: frontend:v4
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5173
+      - name: nest-container
+        image: backend:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+      - name: crash-container
+        image: busybox
+        args:
+        - /bin/sh
+        - -c
+        - "sleep 30; exit 1"
